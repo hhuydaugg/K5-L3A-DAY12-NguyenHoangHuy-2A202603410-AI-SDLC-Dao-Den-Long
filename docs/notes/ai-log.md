@@ -42,3 +42,24 @@ Lỗi của AI ở Phase 2:
 - Khối di chuyển viết lần đầu còn sót vài dòng thừa, vô nghĩa (biến `wasDashing`, một dòng tính `facing` hai lần). Phát hiện khi đọc lại diff, đã xoá trước khi chạy test.
 - Giới hạn tốc độ sau khi lướt đặt sai chỗ, làm tick cuối của cú lướt chỉ đi 0,1 m. Test `dash_cooldown` bắt được: đi 2,667 m thay vì 2,8 m. Đã chuyển việc giới hạn sang tick sau.
 - Test `hit_drop` ban đầu kiểm ở tick +480 trong khi ván đã thua ở tick 195. Đã cho nhân vật nhiều Ngọn Lửa hơn trong scenario và kiểm theo id từng đom đóm.
+
+## Phase 3
+
+| Việc | Cách làm | Token ước tính |
+|---|---|---|
+| Lấy Ticket-03 | Hai file PDF người dùng gửi chỉ in được màn hình đầu. Nội dung ticket nằm trong khung riêng của trang lab board, không đọc được bằng chữ. Chụp từng đoạn ở khung nhìn cao 2400 px rồi chép tay vào một file văn bản. | ~45k (nhiều ảnh) |
+| Sửa `src/sim.js`: dầu, `drain`, luật thắng, sức chứa, điểm | Viết ADR trong đầu trước, rồi sửa đúng các bước 2/4/5/6/7/8/10/11 | ~30k |
+| Scenario và test | Sinh 15 scenario bằng một script. Chạy thử từng cái để lấy số thật trước khi viết assert. | ~25k |
+| Bản web: thanh dầu, đèn tắt xẹp và rách, HUD, bảng màu dễ phân biệt | Sửa `web/main.js`, `index.html`; kiểm bằng browser pane và các hàm `__game`/`__frame` | ~30k |
+| Review độc lập | Subagent soát `sim.js` với ticket | ~160k (subagent) |
+| ADR, CHANGELOG, ghi chép, bằng chứng | | ~20k |
+
+Cách tiết kiệm:
+- Chép ticket một lần vào file. Các bước sau, kể cả subagent review, chỉ đọc file đó, không chụp lại.
+- Viết assert sau khi chạy scenario. Lần này không có vòng sửa test nào vì đoán sai số.
+- Một hàm dùng chung (`hasSafeZone`) cho ba chỗ đang xét `lit`, nên không phải tìm và sửa từng chỗ.
+
+Lỗi của AI ở Phase 3:
+- Scenario `drain_to_chase` ban đầu cho Mây đi 30 tick, chưa đủ gần 6 m. Phát hiện khi chạy thử trước lúc viết test; đã tăng lên 60 tick.
+- Châm dầu cho đèn vốn đã ≥ 30 vẫn đẩy nhầm Bóng Mực đang đứng ở mép, do sai số số thực. Agent viết code không thấy; review độc lập bắt được và đưa ra cách tái hiện. Đã sửa và thêm test.
+- `src/headless.mjs` báo lỗi khi được import từ `node -e`, vì `process.argv[1]` không có giá trị. Đã thêm kiểm tra.

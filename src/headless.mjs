@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Headless runner — Test Contract v1.1.
+// Headless runner — Test Contract v1.2.
 //   node src/headless.mjs --seed <int> --night <1|2|3> [--scenario f.json] [--inputs f.json]
 //                         --ticks <int> --out f.jsonl [--snapshot-every <int>]
 // Exit 0 on success, 2 on bad arguments or malformed inputs/scenario, 1 on any other error.
@@ -75,4 +75,4 @@ function main() {
   }
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

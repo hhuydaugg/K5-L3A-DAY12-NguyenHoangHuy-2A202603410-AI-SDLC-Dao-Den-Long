@@ -6,7 +6,10 @@
 <title>Đảo Đèn Lồng</title>
 <style>
   /* Ticket-02 palette: UI text #F5F1E6, danger #FF5A5F, gold/score #F2C14E, lantern #FFB347, night #0E1430 / #1B2350 */
-  :root { --text: #F5F1E6; --danger: #FF5A5F; --gold: #F2C14E; --warm: #FFB347; --night: #0E1430; --fog: #1B2350; --panel: rgba(14, 20, 48, .78); }
+  :root { --text: #F5F1E6; --danger: #FF5A5F; --gold: #F2C14E; --warm: #FFB347; --night: #0E1430; --fog: #1B2350; --panel: rgba(14, 20, 48, .78); --shade: #7A3CFF; }
+  /* Ticket-03 colour-blind palette: shade rim #00B3FF, warnings white with a ⚠ icon */
+  body.cb { --danger: #FFFFFF; --shade: #00B3FF; }
+  body.cb .danger::before { content: "⚠ "; }
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; background: var(--night); color: var(--text); font: 15px/1.45 system-ui, "Segoe UI", sans-serif; overflow: hidden; }
   canvas { display: block; }
@@ -18,21 +21,24 @@
   @keyframes blink { 50% { opacity: .25; } }
   #h-right { top: 12px; right: 14px; text-align: right; font-size: 17px; }
   #h-right b { color: var(--gold); }
+  #h-right .danger { color: var(--danger); }
   #h-bar { bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 5px; }
   #h-bar i { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(255, 229, 138, .55); background: rgba(14, 20, 48, .6); }
+  #h-bar i[hidden] { display: none; }
   #h-bar i.on { background: radial-gradient(#FFF6C2, #FFE58A 60%, #FFB347); box-shadow: 0 0 10px #FFE58A; }
+  #h-carry { bottom: 44px; left: 50%; transform: translateX(-50%); font-size: 14px; font-weight: 600; }
   #h-cd { bottom: 14px; right: 16px; display: flex; gap: 12px; }
   .cd { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700;
         background: conic-gradient(rgba(14,20,48,.85) var(--p, 0%), rgba(242,193,78,.85) 0); border: 2px solid var(--gold); color: #1a1206; }
   .cd span { background: rgba(245, 241, 230, .9); border-radius: 6px; padding: 0 4px; }
-  #h-prompt { bottom: 64px; left: 50%; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--gold); border-radius: 10px; padding: 6px 14px; font-weight: 600; }
+  #h-prompt { bottom: 76px; left: 50%; transform: translateX(-50%); background: var(--panel); border: 1px solid var(--gold); border-radius: 10px; padding: 6px 14px; font-weight: 600; }
   #h-arrow { width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-bottom: 30px solid var(--warm);
              filter: drop-shadow(0 0 6px #FFB347); top: 0; left: 0; transform-origin: 50% 60%; }
   #h-wind { top: 52px; left: 50%; transform: translateX(-50%); color: #8FA3B8; font-weight: 600; }
   #h-fps { bottom: 4px; left: 8px; font-size: 11px; opacity: .7; }
   #toast { position: fixed; top: 92px; left: 50%; transform: translateX(-50%); color: var(--warm); font-weight: 600; font-size: 18px;
            text-shadow: 0 0 12px rgba(255, 160, 60, .8); pointer-events: none; opacity: 0; transition: opacity .3s; }
-  #flash { position: fixed; inset: 0; background: #7A3CFF; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  #flash { position: fixed; inset: 0; background: var(--shade); opacity: 0; pointer-events: none; transition: opacity .25s; }
   #overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(8, 10, 28, .66); }
   #overlay[hidden], [hidden] { display: none !important; }
   .card { background: var(--panel); border: 1px solid rgba(242, 193, 78, .55); border-radius: 16px; padding: 26px 32px; width: min(560px, 92vw); text-align: center; }
@@ -56,6 +62,7 @@
 <div class="hud" id="h-right"></div>
 <div class="hud" id="h-wind" hidden>Lá đang bay… sắp có gió mạnh!</div>
 <div class="hud" id="h-bar" aria-label="Đom đóm đang mang"></div>
+<div class="hud" id="h-carry"></div>
 <div class="hud" id="h-cd"><div class="cd" id="cd-dash"><span>Lướt</span></div><div class="cd" id="cd-pulse"><span>Tỏa</span></div></div>
 <div class="hud" id="h-prompt" hidden></div>
 <div class="hud" id="h-arrow" hidden></div>

@@ -1,0 +1,44 @@
+{
+ "night": 1,
+ "random_motes": false,
+ "random_shades": false,
+ "random_drifters": false,
+ "wind_enabled": false,
+ "lanterns": [
+  {
+   "id": "L1",
+   "pos": [
+    0,
+    0,
+    10
+   ],
+   "lit": true,
+   "fuel": 20
+  },
+  {
+   "id": "L2",
+   "lit": true
+  },
+  {
+   "id": "L3",
+   "lit": true
+  },
+  {
+   "id": "L4",
+   "lit": true
+  },
+  {
+   "id": "L5",
+   "lit": true
+  }
+ ],
+ "shades": [
+  {
+   "pos": [
+    0,
+    0,
+    16
+   ]
+  }
+ ]
+}

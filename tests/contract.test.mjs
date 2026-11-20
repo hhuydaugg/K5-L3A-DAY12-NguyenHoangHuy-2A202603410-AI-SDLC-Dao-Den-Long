@@ -7,7 +7,7 @@ import { TUNING } from "../src/sim.js";
 const contract = JSON.parse(readFileSync("game.contract.json", "utf8"));
 
 test("contract header", () => {
-  assert.equal(contract.contract_version, "1.1");
+  assert.equal(contract.contract_version, "1.2");
   assert.match(contract.team, /^2A202603410-/);
   for (const k of ["build_cmd", "run_cmd", "headless_cmd"]) assert.ok(contract[k], k);
 });
