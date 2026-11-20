@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Soak test (Ticket-04 part 2): many headless nights in ONE process with seeded random input, to catch crashes and leaks.
-//   node --expose-gc tools/soak.mjs --seed 7 --nights 10 --out soak.json
+// Run with --jitless: on Linux the JIT compiler's own native memory alone grows RSS by 30-80% (docs/notes/phase-4.md A-26).
+//   node --expose-gc --jitless tools/soak.mjs --seed 7 --nights 10 --out soak.json
 // Night k (k = 0..n-1) is night 1, 2, 3, 1, ... with seed + k (A-25). Each night runs until it ends (dawn or no flames).
 // Input: every 30 ticks a new move direction; each tick 5% jump, 3% dash, 2% pulse, 10% interact.
 import { writeFileSync } from "node:fs";

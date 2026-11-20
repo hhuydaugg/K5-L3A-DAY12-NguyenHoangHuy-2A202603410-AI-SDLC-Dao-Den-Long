@@ -88,7 +88,7 @@ npm run verify -- phase-4       # sinh bằng chứng vào docs/proof/phase-4/
 node src/headless.mjs --seed 1 --night 2 --ticks 600 --out run.jsonl \
      [--scenario tests/scenarios/shade_drain.scenario.json] [--inputs file.json] [--snapshot-every 10]
 node tools/bench.mjs --seed 42 --duration 30 --out bench.json                              # = npm run bench
-node --expose-gc --single-threaded --optimize-for-size tools/soak.mjs --seed 7 --nights 10 --out soak.json   # = npm run soak
+node --expose-gc --jitless tools/soak.mjs --seed 7 --nights 10 --out soak.json   # = npm run soak
 ```
 
 **`game.contract.json`:**
@@ -124,9 +124,9 @@ Kết quả trên máy tôi (Windows 11, i9-12900H, Intel Iris Xe, Chrome 157), 
 
 - `tools/soak.mjs` chạy 10 Đêm (1 → 2 → 3 → 1 …) trong cùng một tiến trình Node, input ngẫu nhiên theo seed.
 - Bộ nhớ đo bằng RSS sau khi gọi `gc()`.
-- Các cờ `--single-threaded --optimize-for-size` giữ RSS ổn định; lý do và số đo ở `docs/notes/phase-4.md` (A-26).
+- Chạy với `--jitless`, vì trên Linux riêng bộ nhớ của trình biên dịch JIT đã làm RSS tăng 30–80%, trong khi heap JS chỉ 6–9 MB. Game vẫn chạy đúng code đó, chỉ là bằng trình thông dịch. Số đo trên Node 18/20/22 ở `docs/notes/phase-4.md` (A-26).
 
-Kết quả: `soak.json`, 0 crash, RSS 41,4 → 44,9 MB (tỉ lệ 1,085, ngưỡng 1,2). CI chạy lại soak trên Linux ở mỗi lần push.
+Kết quả: `soak.json`, 0 crash, RSS 39,4 → 43,0 MB (tỉ lệ 1,091, ngưỡng 1,2). CI chạy lại soak trên Linux ở mỗi lần push.
 
 ## Sáng tạo của tôi
 

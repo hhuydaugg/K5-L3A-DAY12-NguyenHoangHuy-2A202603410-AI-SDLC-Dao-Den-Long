@@ -5,7 +5,7 @@
   "run_cmd": "node web/serve.mjs",
   "headless_cmd": "node src/headless.mjs",
   "bench_cmd": "node tools/bench.mjs",
-  "soak_cmd": "node --expose-gc --single-threaded --optimize-for-size tools/soak.mjs",
+  "soak_cmd": "node --expose-gc --jitless tools/soak.mjs",
   "tuning": {
     "player_speed": 6,
     "carry_capacity": 10,

@@ -15,7 +15,7 @@ Mỗi phase là một tag trên `main`. "Phá vỡ tương thích" là thay đ�
   - cảnh chuẩn `createBench` trong `src/sim.js`;
   - cửa sổ Chrome/Edge 1280×720, tắt vsync;
   - kết quả có các chỉ số FPS, p95, `load_ms`.
-- **Soak test** `tools/soak.mjs`: 10 Đêm trong một tiến trình, input ngẫu nhiên theo seed, đo RSS. CI chạy soak trên Linux.
+- **Soak test** `tools/soak.mjs`: 10 Đêm trong một tiến trình, input ngẫu nhiên theo seed, đo RSS. Chạy với `node --expose-gc --jitless` (A-26). CI chạy soak trên Linux.
 - **Bảng xếp hạng cục bộ:**
   - lưu ở `data/leaderboard.json` qua server cục bộ, giữ top 10;
   - nhập tên sau Bình Minh hoặc khi thua;

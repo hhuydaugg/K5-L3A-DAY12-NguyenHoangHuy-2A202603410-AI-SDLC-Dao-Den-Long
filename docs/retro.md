@@ -9,7 +9,7 @@ Nguyễn Hoàng Huy, 2A202603410. Làm cùng Claude Code (Claude Opus 5.5). Bố
 | 1 | PRD-0: Đêm 1, headless, Contract v1.0 | 12/12 | Tất định (sha256 trùng); 1 Đêm headless < 1 s | `docs/notes/phase-1.md` |
 | 2 | Ticket-02: số chuẩn, 3 Đêm, Contract v1.1 | 30/30 | 29 scenario; 358–818 FPS năng lực ở 1280×720 (đo chi phí mỗi khung, Iris Xe) | `phase-2.md`, `review-phase-2.md` |
 | 3 | Ticket-03: dầu đèn, `drain`, thắng lúc bình minh, Contract v1.2 | 42/42 | 43 scenario; 5 test cũ viết lại có ghi lý do, không skip test nào | `phase-3.md`, `review-phase-3.md`, ADR 0001 |
-| 4 | Ticket-04: phát hành, Contract v1.3 | 48/48 | Bench 192,4 FPS trung bình / 89,9 FPS 1% thấp / tải 834 ms; soak 0 crash, RSS ×1,085; chữ ≥ 18 px | `phase-4.md`, `bench.json`, `soak.json` |
+| 4 | Ticket-04: phát hành, Contract v1.3 | 48/48 | Bench 192,4 FPS trung bình / 89,9 FPS 1% thấp / tải 834 ms; soak 0 crash, RSS ×1,091; chữ ≥ 18 px | `phase-4.md`, `bench.json`, `soak.json` |
 
 Review độc lập bằng một subagent khác (không phải agent viết code), đối chiếu `sim.js` với nguyên văn ticket:
 - Phase 2: 8 điểm mức thấp, sửa 6, giữ 2 dưới dạng giả định có ghi rõ.
@@ -39,6 +39,7 @@ Review độc lập bằng một subagent khác (không phải agent viết code
 | Châm dầu đẩy nhầm Bóng Mực đang đứng ở mép 6 m, do sai số số thực | Review độc lập Phase 3, kèm script tái hiện |
 | Script chụp ảnh tự làm treo chính nó (`spawnSync` khi đang làm server) | Hết thời gian chờ, đọc lại code |
 | Một dòng số đo ghi theo trí nhớ, không theo lần chạy thật | Tự đọc lại trước khi commit, rồi chạy lại để lấy số đúng |
+| Chọn cờ Node cho soak chỉ dựa trên số đo Windows; trên Linux vẫn vượt 1,2 | CI (Linux) đỏ sau khi push; đo lại trên GitHub Actions với Node 18/20/22 rồi đổi sang `--jitless` |
 
 Bài học: test bắt các lỗi về số. Còn những lỗi về cách hiểu ticket thì một agent khác, chỉ cầm nguyên văn ticket và không biết tôi đã nghĩ gì, bắt tốt hơn hẳn.
 

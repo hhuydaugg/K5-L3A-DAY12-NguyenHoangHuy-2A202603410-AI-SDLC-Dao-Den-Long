@@ -26,7 +26,7 @@
 | # | Chỗ mơ hồ | Giả định |
 |---|---|---|
 | A-25 | Soak: "Đêm thứ i dùng seed 7 + i" | i đếm từ 0, nên Đêm đầu dùng đúng seed truyền vào (7, 8, …, 16). |
-| A-26 | Soak: RSS của Node dao động do JIT | Đo RSS sau khi gọi `gc()`, và chạy với `--single-threaded --optimize-for-size`. Lý do ở bảng đo bên dưới. Heap JS đứng yên quanh 4,2–4,7 MB qua 40 Đêm, nên không có rò rỉ trong game. |
+| A-26 | Soak: RSS của Node tăng do JIT | Đo RSS sau khi gọi `gc()`, và chạy với `--jitless`. Lý do ở các bảng đo bên dưới. Heap JS đứng yên (4–10 MB) qua 10–40 Đêm, nên không có rò rỉ trong game. |
 | A-27 | Benchmark: cửa sổ 1280×720 với game web | Chrome ở chế độ `--app`, cửa sổ 1280×720, `--force-device-scale-factor=1`. Canvas luôn đúng 1280×720 với pixel ratio 1; `bench.json` có trường `canvas` để kiểm. |
 | A-28 | Hướng bay của camera | Cùng quy ước góc với bản đồ: (30 cos a, 15, 30 sin a), a tăng dần, một vòng 15 s, bắt đầu ở (30, 15, 0). |
 | A-29 | "Bóng Mực vẫn đi theo luật `wander`" trong cảnh bench | Mây vô hình với Bóng Mực, vì nếu đuổi thì không còn là `wander`. Dầu không hao nên không có đèn yếu. Bóng Mực bay về đèn tắt L4, L5 (A-18). |
@@ -43,7 +43,7 @@
 |---|---|---|---|
 | Benchmark: lệnh, cảnh chuẩn, 1280×720, tắt vsync, 3 s khởi động, đo `--duration` s, thoát mã 0 | Đúng 200 Bóng Mực `wander`, 100 đom đóm, L1–L3 dầu 100; không sinh, không hao, không kết thúc | `bench.json`; test `bench scene…`; ảnh `bench_scene.png` | đạt |
 | Ngưỡng bench: `avg_fps` ≥ 60, `p1_low_fps` ≥ 30, `load_ms` ≤ 10000 | Máy tôi (Iris Xe): 192,4 / 89,9 / 834 ms; `frame_ms_p95` 8,6 ms; 5774 khung trong 30 s | `bench.json` | đạt trên máy tôi; máy chấm do giảng viên đo |
-| Soak: 10 Đêm, 1 tiến trình, input ngẫu nhiên theo seed | `crashes` = 0; `mem_end_mb` ≤ 1,2 × `mem_start_mb` | `soak.json`: 41,4 → 44,9 MB (1,085); test soak 3 Đêm trong `contract.test.mjs`; CI chạy lại trên Linux | đạt |
+| Soak: 10 Đêm, 1 tiến trình, input ngẫu nhiên theo seed | `crashes` = 0; `mem_end_mb` ≤ 1,2 × `mem_start_mb` | `soak.json`: 39,4 → 43,0 MB (1,091); test soak 3 Đêm trong `contract.test.mjs`; CI chạy lại trên Linux | đạt |
 | Bảng xếp hạng: nhập tên sau Bình Minh hoặc khi thua; tên 3–12 ký tự; top 10; sắp theo điểm, bằng điểm thì ai đạt trước đứng trên; lưu trên đĩa; có màn hình từ menu; lệnh xuất ra file | Hàm `insert` và `validName`; lệnh xuất đọc đúng file | `tests/leaderboard.test.mjs` (4 test); kiểm trong trình duyệt: tên "ab" bị chặn, "Hoàng_Huy" được lưu vào `data/leaderboard.json` và hiện trên bảng | đạt |
 | Đổi phím: mọi hành động, báo trùng, khôi phục mặc định, được lưu | Gán E cho "Nhảy" bị từ chối kèm thông báo "Phím E đang dùng cho “Thắp / châm dầu”"; gán J thì được lưu | Kiểm trong trình duyệt | đạt (kiểm tay) |
 | Phụ đề / chỉ báo hình ảnh: Bóng Mực xuất hiện kèm mũi tên ở mép, gió sắp thổi, 10 s cuối, đèn dưới 30 dầu | Có dòng phụ đề cho cả 4 tình huống, bật/tắt trong Cài đặt | `web/main.js` (`caption`, `edgeArrow`) | đạt (kiểm tay) |
@@ -64,10 +64,21 @@ Mỗi dòng là 3 lần chạy với seed 7, 42, 99, mỗi lần 10 Đêm, trên
 | `--max-semi-space-size=1` | 1,19 · 1,35 · 1,22 | 0,3–0,4 s |
 | `--single-threaded` | 1,17 · 1,17 · 1,18 | 1,4 s |
 | `--optimize-for-size` | 1,21 · 1,11 · 1,25 | 0,4 s |
-| `--single-threaded --optimize-for-size` (**đã chọn**) | 1,12 · 1,12 · 1,13 | 1,6 s |
-| `--jitless` | 1,11 · 1,11 · 1,05 | 0,9 s |
+| `--single-threaded --optimize-for-size` | 1,12 · 1,12 · 1,13 | 1,6 s |
+| `--jitless` (**đã chọn**) | 1,11 · 1,11 · 1,05 | 0,9 s |
 
-Không chọn `--jitless`: nó tắt JIT, nên con số không còn giống lúc game chạy thật. Phần RSS tăng lên nằm ở bộ nhớ của trình biên dịch và các luồng chạy nền của V8, không nằm ở heap JS. Nền của Node chỉ khoảng 37 MB, nên vài MB đó đã thành 20–30%.
+**Ban đầu tôi chọn `--single-threaded --optimize-for-size`** dựa trên số đo trên Windows (tag `phase-4` lúc đầu). CI trên Linux báo đỏ, nên tôi đo lại trên GitHub Actions bằng một nhánh tạm, đã xoá sau khi đo.
+
+Mỗi ô là 3 lần chạy với seed 7, 42, 99, mỗi lần 10 Đêm:
+
+| Cờ của Node (Linux, CI) | Node 18 | Node 20 | Node 22 |
+|---|---|---|---|
+| chỉ `--expose-gc` | 1,79 · 1,54 · 1,67 | 1,81 · 1,60 · 1,70 | 1,75 · 1,76 · 1,70 |
+| `--single-threaded --optimize-for-size` | 1,38 · 1,38 · 1,53 | 1,56 · 1,29 · 1,30 | 1,59 · 1,39 · 1,47 |
+| thêm `MALLOC_ARENA_MAX=1` | 1,31 · 1,32 · 1,39 | 1,56 · 1,29 · 1,36 | 1,60 · 1,43 · 1,47 |
+| `--jitless` (**đã chọn**) | 1,08 · 1,08 · 1,08 | 1,09 · 1,09 · 1,04 | 1,08 · 1,08 · 1,04 |
+
+Trên Linux, heap JS chỉ 6–9 MB mà RSS tăng 10–45 MB, phần lớn ngay ở Đêm đầu, lúc JIT bắt đầu biên dịch. Bộ nhớ này thuộc trình biên dịch của V8, và glibc không trả lại cho hệ điều hành. Đây không phải rò rỉ của game. Soak dùng để bắt crash và rò rỉ trong logic game; với `--jitless`, game vẫn chạy đúng code đó và cùng các đối tượng đó, chỉ là bằng trình thông dịch (10 Đêm mất khoảng 1 s).
 
 ## Đánh giá
 

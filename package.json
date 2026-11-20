@@ -13,7 +13,7 @@
     "headless": "node src/headless.mjs",
     "verify": "node tools/verify.mjs",
     "bench": "node tools/bench.mjs --seed 42 --duration 30 --out bench.json",
-    "soak": "node --expose-gc --single-threaded --optimize-for-size tools/soak.mjs --seed 7 --nights 10 --out soak.json",
+    "soak": "node --expose-gc --jitless tools/soak.mjs --seed 7 --nights 10 --out soak.json",
     "release": "node tools/release.mjs"
   },
   "license": "MIT"
