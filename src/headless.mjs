@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-// Headless runner — Test Contract v1.0.
-//   node src/headless.mjs --seed <int> --night 1 [--scenario f.json] [--inputs f.json]
+// Headless runner — Test Contract v1.1.
+//   node src/headless.mjs --seed <int> --night <1|2|3> [--scenario f.json] [--inputs f.json]
 //                         --ticks <int> --out f.jsonl [--snapshot-every <int>]
 // Exit 0 on success, 2 on bad arguments or malformed inputs/scenario, 1 on any other error.
 import { readFileSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import { createGame, inputTimeline, InputError, snapshot, step, validateInputs, validateScenario } from "./sim.js";
+import { createGame, inputTimeline, InputError, NIGHTS, snapshot, step, validateInputs, validateScenario } from "./sim.js";
 
-const USAGE = "usage: headless --seed <int> --night 1 [--scenario f.json] [--inputs f.json] --ticks <int> --out f.jsonl [--snapshot-every <int>]";
+const USAGE = "usage: headless --seed <int> --night <1|2|3> [--scenario f.json] [--inputs f.json] --ticks <int> --out f.jsonl [--snapshot-every <int>]";
 
 export function parseArgs(argv) {
   const opts = { snapshotEvery: 10 };
@@ -30,7 +30,7 @@ export function parseArgs(argv) {
     else throw new InputError(`unknown option '${k}'`);
   }
   for (const k of ["seed", "night", "ticks", "out"]) if (opts[k] === undefined) throw new InputError(`--${k} is required`);
-  if (opts.night !== 1) throw new InputError(`--night ${opts.night}: only night 1 exists`);
+  if (!NIGHTS.includes(opts.night)) throw new InputError(`--night ${opts.night}: expected one of ${NIGHTS.join(", ")}`);
   return opts;
 }
 
@@ -50,16 +50,18 @@ function readJson(path, what) {
 
 /** Run one headless session and return the JSONL lines (also used by the tests). */
 export function run(opts) {
-  const scenario = opts.scenario ? validateScenario(readJson(opts.scenario, "scenario")) : {};
+  const scenario = opts.scenario ? validateScenario(readJson(opts.scenario, "scenario"), opts.night) : {};
   const inputs = opts.inputs ? validateInputs(readJson(opts.inputs, "inputs")) : { frames: [] };
-  const g = createGame({ seed: opts.seed, scenario });
+  const g = createGame({ seed: opts.seed, night: opts.night, scenario });
   const inputAt = inputTimeline(inputs);
-  const lines = [JSON.stringify(snapshot(g))];
-  for (let k = 0; k < opts.ticks && g.state === "playing"; k++) {
+  const lines = [JSON.stringify(snapshot(g)), JSON.stringify({ type: "event", tick: 0, name: "night_start", data: { night: opts.night } })];
+  const running = () => g.state === "playing" || g.state === "paused";
+  for (let k = 0; k < opts.ticks && running(); k++) {
     for (const e of step(g, inputAt(k))) lines.push(JSON.stringify(e));
-    if (g.steps % opts.snapshotEvery === 0) lines.push(JSON.stringify(snapshot(g)));
+    if (g.tick % opts.snapshotEvery === 0) lines.push(JSON.stringify(snapshot(g)));
   }
-  lines.push(JSON.stringify({ type: "end", ticks: g.steps, state: g.state, score: g.score }));
+  // a paused run is still a night in progress for the end line
+  lines.push(JSON.stringify({ type: "end", ticks: g.tick, state: g.state === "paused" ? "playing" : g.state, score: g.score }));
   return lines;
 }
 

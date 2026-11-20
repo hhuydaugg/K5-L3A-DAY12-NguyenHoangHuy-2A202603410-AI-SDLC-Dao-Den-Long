@@ -1,0 +1,11 @@
+{
+  "how": "web console: __bench(night, 600) at a 1280x720 viewport; each frame = sim step + render + HUD + renderer.render + gl.finish()",
+  "measured_at": "2026-11-20T09:25:25.746Z",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Claude/6.6395.0 Chrome/156.0.8078.100 Safari/537.36 MSIX",
+  "gpu": "ANGLE (Intel, Intel(R) Iris(R) Xe Graphics (0x000046A6) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "runs": [
+    { "night": 1, "frames": 600, "size": [1280, 720], "pixelRatio": 1.25, "ms_per_frame": 1.77, "fps_capacity": 565.9 },
+    { "night": 2, "frames": 600, "size": [1280, 720], "pixelRatio": 1.25, "ms_per_frame": 1.22, "fps_capacity": 817.6 },
+    { "night": 3, "frames": 600, "size": [1280, 720], "pixelRatio": 1.25, "ms_per_frame": 2.79, "fps_capacity": 358.4 }
+  ]
+}

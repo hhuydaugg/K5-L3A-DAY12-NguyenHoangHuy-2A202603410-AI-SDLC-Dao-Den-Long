@@ -1,3 +1,5 @@
 {
- "player": {"flames": 100000}
+ "player": {
+  "flames": 100000
+ }
 }

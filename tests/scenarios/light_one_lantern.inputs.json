@@ -8,15 +8,18 @@
    ]
   },
   {
-   "tick": 60,
+   "tick": 120,
    "move": [
     0,
     0
-   ],
+   ]
+  },
+  {
+   "tick": 130,
    "interact": true
   },
   {
-   "tick": 61,
+   "tick": 131,
    "interact": false
   }
  ]

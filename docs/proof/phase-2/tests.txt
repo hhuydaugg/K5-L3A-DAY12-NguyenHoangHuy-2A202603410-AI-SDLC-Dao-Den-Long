@@ -1,0 +1,190 @@
+TAP version 13
+# Subtest: contract header
+ok 1 - contract header
+  ---
+  duration_ms: 0.9544
+  type: 'test'
+  ...
+# Subtest: contract tuning equals the game's TUNING
+ok 2 - contract tuning equals the game's TUNING
+  ---
+  duration_ms: 0.9204
+  type: 'test'
+  ...
+# Subtest: v1.1 snapshot fields, night_start, end line
+ok 3 - v1.1 snapshot fields, night_start, end line
+  ---
+  duration_ms: 72.9807
+  type: 'test'
+  ...
+# Subtest: determinism: same seed/night/inputs => byte-identical output on all three nights
+ok 4 - determinism: same seed/night/inputs => byte-identical output on all three nights
+  ---
+  duration_ms: 986.5001
+  type: 'test'
+  ...
+# Subtest: malformed files and arguments exit with code 2
+ok 5 - malformed files and arguments exit with code 2
+  ---
+  duration_ms: 555.604
+  type: 'test'
+  ...
+# Subtest: pick 10 motes, deposit 10 into a lantern, it lights: score counts deposited motes
+ok 6 - pick 10 motes, deposit 10 into a lantern, it lights: score counts deposited motes
+  ---
+  duration_ms: 67.4141
+  type: 'test'
+  ...
+# Subtest: last lantern wins with time + flame bonus; pre-lit lanterns score nothing
+ok 7 - last lantern wins with time + flame bonus; pre-lit lanterns score nothing
+  ---
+  duration_ms: 64.5767
+  type: 'test'
+  ...
+# Subtest: all lit on the very tick time runs out is a win
+ok 8 - all lit on the very tick time runs out is a win
+  ---
+  duration_ms: 63.9816
+  type: 'test'
+  ...
+# Subtest: shade contact: -1 flame, drops floor(carried/2), lose at 0 flames
+ok 9 - shade contact: -1 flame, drops floor(carried/2), lose at 0 flames
+  ---
+  duration_ms: 70.0541
+  type: 'test'
+  ...
+# Subtest: pulse: 3 motes, stun 120 ticks, 4 m push over 15 ticks, +5 per shade
+ok 10 - pulse: 3 motes, stun 120 ticks, 4 m push over 15 ticks, +5 per shade
+  ---
+  duration_ms: 73.6468
+  type: 'test'
+  ...
+# Subtest: pulse targets by 3D distance from feet + 0.8 m
+ok 11 - pulse targets by 3D distance from feet + 0.8 m
+  ---
+  duration_ms: 65.7056
+  type: 'test'
+  ...
+# Subtest: pulse needs 3 motes
+ok 12 - pulse needs 3 motes
+  ---
+  duration_ms: 68.0993
+  type: 'test'
+  ...
+# Subtest: dawn loses
+ok 13 - dawn loses
+  ---
+  duration_ms: 63.2001
+  type: 'test'
+  ...
+# Subtest: shades stop at the 6 m edge of a lit lantern
+ok 14 - shades stop at the 6 m edge of a lit lantern
+  ---
+  duration_ms: 72.8572
+  type: 'test'
+  ...
+# Subtest: a shade inside a lantern that just lit is pushed to the edge within 30 ticks, harmless meanwhile
+ok 15 - a shade inside a lantern that just lit is pushed to the edge within 30 ticks, harmless meanwhile
+  ---
+  duration_ms: 73.5815
+  type: 'test'
+  ...
+# Subtest: interact picks the nearest unlit lantern, tie => lower id
+ok 16 - interact picks the nearest unlit lantern, tie => lower id
+  ---
+  duration_ms: 64.4924
+  type: 'test'
+  ...
+# Subtest: camera yaw 90 + forward moves along +X; run speed reached in 0.1 s
+ok 17 - camera yaw 90 + forward moves along +X; run speed reached in 0.1 s
+  ---
+  duration_ms: 66.7501
+  type: 'test'
+  ...
+# Subtest: dash: 14 m/s for 0.2 s, 1.5 s cooldown from the start, facing direction when standing still
+ok 18 - dash: 14 m/s for 0.2 s, 1.5 s cooldown from the start, facing direction when standing still
+  ---
+  duration_ms: 66.2037
+  type: 'test'
+  ...
+# Subtest: air dash keeps the height
+ok 19 - air dash keeps the height
+  ---
+  duration_ms: 62.179
+  type: 'test'
+  ...
+# Subtest: falling off the island: -1 flame, lose all motes once, respawn at start after 60 ticks with invulnerability
+ok 20 - falling off the island: -1 flame, lose all motes once, respawn at start after 60 ticks with invulnerability
+  ---
+  duration_ms: 71.9349
+  type: 'test'
+  ...
+# Subtest: hit drops floor(carried/2) motes on a 1.5-2.5 m ring for 480 ticks; the shade recoils
+ok 21 - hit drops floor(carried/2) motes on a 1.5-2.5 m ring for 480 ticks; the shade recoils
+  ---
+  duration_ms: 81.1816
+  type: 'test'
+  ...
+# Subtest: shade schedule: 2 at tick 300 (spawning), then 1 every 8 s on night 1
+ok 22 - shade schedule: 2 at tick 300 (spawning), then 1 every 8 s on night 1
+  ---
+  duration_ms: 75.0672
+  type: 'test'
+  ...
+# Subtest: pause freezes sim_tick and time while tick keeps counting
+ok 23 - pause freezes sim_tick and time while tick keeps counting
+  ---
+  duration_ms: 67.0165
+  type: 'test'
+  ...
+# Subtest: night 2 jump pad throws Mây over the sea to the other island
+ok 24 - night 2 jump pad throws Mây over the sea to the other island
+  ---
+  duration_ms: 72.3406
+  type: 'test'
+  ...
+# Subtest: night 3: tier walls block, ramps climb, the pad lands on tier 2
+ok 25 - night 3: tier walls block, ramps climb, the pad lands on tier 2
+  ---
+  duration_ms: 216.0644
+  type: 'test'
+  ...
+# Subtest: night 3 wind: a 5 s gust every 30 s pushes Mây at 2 m/s
+ok 26 - night 3 wind: a 5 s gust every 30 s pushes Mây at 2 m/s
+  ---
+  duration_ms: 81.0319
+  type: 'test'
+  ...
+# Subtest: Gió Lạc chases a Mây carrying >= 5, steals 3 once, flees 240 ticks then is removed
+ok 27 - Gió Lạc chases a Mây carrying >= 5, steals 3 once, flees 240 ticks then is removed
+  ---
+  duration_ms: 69.798
+  type: 'test'
+  ...
+# Subtest: pulse on a chasing Gió Lạc: it flees without stealing
+ok 28 - pulse on a chasing Gió Lạc: it flees without stealing
+  ---
+  duration_ms: 68.3206
+  type: 'test'
+  ...
+# Subtest: pulse on a fleeing Gió Lạc with loot: drops it as dropped motes, gone after 120 ticks
+ok 29 - pulse on a fleeing Gió Lạc with loot: drops it as dropped motes, gone after 120 ticks
+  ---
+  duration_ms: 74.2165
+  type: 'test'
+  ...
+# Subtest: Bùa Gió: 600 ticks of 7.2 m/s and dash without cooldown; respawns after 2700 ticks
+ok 30 - Bùa Gió: 600 ticks of 7.2 m/s and dash without cooldown; respawns after 2700 ticks
+  ---
+  duration_ms: 78.0098
+  type: 'test'
+  ...
+1..30
+# tests 30
+# suites 0
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3665.1505

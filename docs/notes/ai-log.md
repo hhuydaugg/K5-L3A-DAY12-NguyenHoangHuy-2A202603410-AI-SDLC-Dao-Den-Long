@@ -21,3 +21,24 @@ Cách tiết kiệm:
 Lỗi của AI:
 - Đặt đèn đúng trên mép bán kính tương tác (xem phase-1.md mục Đánh giá).
 - Đề xuất `node --test tests/`: Node 22 hiểu đường dẫn thư mục là một file và báo lỗi. Đã đổi sang `node --test`, dùng cách tự tìm file test mặc định.
+
+## Phase 2
+
+| Việc | Cách làm | Token ước tính |
+|---|---|---|
+| Lấy Ticket-02 | Trang lab board lưu về máy (Phase 2 đã mở trong bản lưu). Một script lấy riêng phần chữ của ticket (~11 KB) để đọc, thay vì đưa cả trang 3 MB vào ngữ cảnh. | ~15k |
+| Viết lại `src/sim.js` theo số chuẩn, 3 bản đồ, thứ tự tick, Contract v1.1 | Viết một lần, tách thành 11 bước đánh số theo ticket | ~45k |
+| Scenario và test | Sinh 29 scenario bằng một script; 30 test | ~35k |
+| Bản web: menu, HUD, âm thanh, 3 Đêm | Viết lại `web/main.js`, kiểm bằng browser pane (ảnh chụp, đo khung hình) | ~45k |
+| Review độc lập | Một subagent khác soát `sim.js` với nguyên văn ticket | ~40k (subagent) |
+| Bằng chứng, ghi chép | `npm run verify -- phase-2`, `__bench`, ghi chép | ~20k |
+
+Cách tiết kiệm:
+- Lấy chữ ticket bằng script.
+- Sinh scenario bằng một đoạn code thay vì viết tay 29 file.
+- Đo FPS bằng hàm `__bench` chạy trong trang. Khi pane trình duyệt bị ẩn, requestAnimationFrame bị hãm xuống khoảng 1 FPS, nên đo kiểu thường vừa sai vừa tốn lượt.
+
+Lỗi của AI ở Phase 2:
+- Khối di chuyển viết lần đầu còn sót vài dòng thừa, vô nghĩa (biến `wasDashing`, một dòng tính `facing` hai lần). Phát hiện khi đọc lại diff, đã xoá trước khi chạy test.
+- Giới hạn tốc độ sau khi lướt đặt sai chỗ, làm tick cuối của cú lướt chỉ đi 0,1 m. Test `dash_cooldown` bắt được: đi 2,667 m thay vì 2,8 m. Đã chuyển việc giới hạn sang tick sau.
+- Test `hit_drop` ban đầu kiểm ở tick +480 trong khi ván đã thua ở tick 195. Đã cho nhân vật nhiều Ngọn Lửa hơn trong scenario và kiểm theo id từng đom đóm.
