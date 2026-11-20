@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "npm test --silent >/dev/null 2>&1 || { echo 'npm test is red: fix the failing tests before stopping (see npm test output).' >&2; exit 2; }"
+          }
+        ]
+      }
+    ]
+  }
+}

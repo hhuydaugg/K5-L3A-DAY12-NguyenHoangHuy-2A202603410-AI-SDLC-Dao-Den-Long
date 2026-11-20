@@ -1,0 +1,35 @@
+{
+ "frames": [
+  {
+   "tick": 0,
+   "move": [
+    0.6,
+    0.8
+   ]
+  },
+  {
+   "tick": 300,
+   "move": [
+    -1,
+    0
+   ],
+   "jump": true
+  },
+  {
+   "tick": 301,
+   "jump": false
+  },
+  {
+   "tick": 600,
+   "move": [
+    0,
+    -1
+   ],
+   "pulse": true
+  },
+  {
+   "tick": 601,
+   "pulse": false
+  }
+ ]
+}

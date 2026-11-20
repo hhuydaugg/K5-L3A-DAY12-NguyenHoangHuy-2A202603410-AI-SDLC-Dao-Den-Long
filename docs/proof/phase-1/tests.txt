@@ -1,0 +1,82 @@
+TAP version 13
+# Subtest: contract header
+ok 1 - contract header
+  ---
+  duration_ms: 1.0926
+  type: 'test'
+  ...
+# Subtest: contract tuning equals the game's TUNING
+ok 2 - contract tuning equals the game's TUNING
+  ---
+  duration_ms: 0.9033
+  type: 'test'
+  ...
+# Subtest: output format: snapshot at tick 0, every N ticks, end line last
+ok 3 - output format: snapshot at tick 0, every N ticks, end line last
+  ---
+  duration_ms: 70.8291
+  type: 'test'
+  ...
+# Subtest: determinism: same seed, scenario and inputs give byte-identical output
+ok 4 - determinism: same seed, scenario and inputs give byte-identical output
+  ---
+  duration_ms: 305.5115
+  type: 'test'
+  ...
+# Subtest: walk, pick 5 motes, deposit, lantern lit (score 5x10 + 100)
+ok 5 - walk, pick 5 motes, deposit, lantern lit (score 5x10 + 100)
+  ---
+  duration_ms: 66.5688
+  type: 'test'
+  ...
+# Subtest: lighting the last lantern wins with time and flame bonus; pre-lit lanterns score nothing
+ok 6 - lighting the last lantern wins with time and flame bonus; pre-lit lanterns score nothing
+  ---
+  duration_ms: 64.7403
+  type: 'test'
+  ...
+# Subtest: shade contact: lose a flame, drop half the light, lose at 0 flames
+ok 7 - shade contact: lose a flame, drop half the light, lose at 0 flames
+  ---
+  duration_ms: 70.2993
+  type: 'test'
+  ...
+# Subtest: pulse costs light, stuns and pushes only shades in range
+ok 8 - pulse costs light, stuns and pushes only shades in range
+  ---
+  duration_ms: 75.1027
+  type: 'test'
+  ...
+# Subtest: dawn: running out of time loses
+ok 9 - dawn: running out of time loses
+  ---
+  duration_ms: 64.4077
+  type: 'test'
+  ...
+# Subtest: shades never enter the safe radius of a lit lantern
+ok 10 - shades never enter the safe radius of a lit lantern
+  ---
+  duration_ms: 69.547
+  type: 'test'
+  ...
+# Subtest: camera yaw rotates movement: yaw 90 + forward = +X at player_speed
+ok 11 - camera yaw rotates movement: yaw 90 + forward = +X at player_speed
+  ---
+  duration_ms: 67.3306
+  type: 'test'
+  ...
+# Subtest: malformed files and arguments exit with code 2
+ok 12 - malformed files and arguments exit with code 2
+  ---
+  duration_ms: 390.8854
+  type: 'test'
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 12
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1380.0581
