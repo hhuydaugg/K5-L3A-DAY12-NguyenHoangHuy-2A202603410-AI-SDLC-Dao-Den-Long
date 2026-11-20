@@ -203,6 +203,23 @@ export function createGame({ seed = 0, night = 1, scenario = {} } = {}) {
   return g;
 }
 
+/**
+ * Standard benchmark scene (Ticket-04 part 1): night 1, L1-L3 lit with 100 fuel, exactly 200 shades in "wander" and
+ * 100 motes spread uniformly over the island from `seed`, Mây standing at (0, 0, 0). In this scene nothing spawns,
+ * nothing is picked up, nobody is hurt, no fuel burns and the night never ends; shades still follow the wander rules.
+ */
+export function createBench(seed = 42) {
+  const g = createGame({ seed, night: 1, scenario: { random_motes: false, random_shades: false, random_drifters: false,
+    wind_enabled: false, player: { pos: [0, 0, 0] }, lanterns: ["L1", "L2", "L3"].map((id) => ({ id, lit: true, fuel: TUNING.fuel_max })) } });
+  g.bench = true;
+  const rnd = mulberry32(seed);
+  const R = 40; // island radius: uniform over the disc
+  const point = () => { const r = R * Math.sqrt(rnd()), a = rnd() * 2 * Math.PI; return [r * Math.cos(a), 0, r * Math.sin(a)]; };
+  for (let i = 0; i < 200; i++) addShade(g, point(), undefined, "wander", 0);
+  for (let i = 0; i < 100; i++) addMote(g, point(), "random", null);
+  return g;
+}
+
 function shuffled(g, arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -318,7 +335,7 @@ export function step(g, input) {
     }
   }
   // fuel (Ticket-03): lit lanterns burn 1/s, each draining shade takes 5/s more; right after, empty lanterns go out
-  for (const l of g.lanterns) if (l.lit) l.f -= FUEL_DECAY;
+  for (const l of g.lanterns) if (l.lit && !g.bench) l.f -= FUEL_DECAY; // the bench scene burns no fuel
   const drains = [];
   for (const s of g.shades) {
     const l = s.state === "drain" && g.lanterns.find((x) => x.id === s.lantern);
@@ -412,7 +429,8 @@ export function step(g, input) {
       if (p.flames > 0) p.fallWait = RULES.respawn_wait;
     }
   }
-  const away = p.fallWait > 0 || p.falling; // waiting to respawn: no pickups, cannot be touched
+  // waiting to respawn: no pickups, cannot be touched. In the bench scene Mây is never reachable (no pickups, damage, chase)
+  const away = g.bench || p.fallWait > 0 || p.falling;
 
   // 4. pick up motes and charms
   if (!away && p.flames > 0) {
@@ -655,7 +673,7 @@ export function step(g, input) {
   }
 
   // 11. win / lose (Ticket-03): no early win; at dawn Mây wins with >= ceil(0.6 x lanterns) lit; 0 flames always loses first
-  if (p.flames === 0) finish(g, "lost", "no_flames", ev);
+  if (g.bench) { /* the bench scene never ends */ } else if (p.flames === 0) finish(g, "lost", "no_flames", ev);
   else if (timeLeft(g) <= 1e-9) {
     const lit = g.lanterns.filter((l) => l.lit);
     if (lit.length >= winNeed(g.lanterns.length)) {

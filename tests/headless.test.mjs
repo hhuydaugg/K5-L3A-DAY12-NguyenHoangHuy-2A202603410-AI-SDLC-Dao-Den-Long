@@ -404,3 +404,25 @@ test("refuelling a lantern already >= 30 does not eject shades pinned on its 6 m
   step(g, { ...idle, interact: true });
   assert.equal(g.shades.filter((s) => s.eject).length, 0);
 });
+
+// ---------------- Ticket-04: benchmark scene ----------------
+
+test("bench scene: 200 wandering shades, 100 motes, L1-L3 lit at 100; nothing spawns, burns, hurts or ends", async () => {
+  const { createBench } = await import("../src/sim.js");
+  const g = createBench(42);
+  assert.equal(g.shades.length, 200);
+  assert.ok(g.shades.every((s) => s.state === "wander" && Math.hypot(s.pos[0], s.pos[2]) <= 40));
+  assert.equal(g.motes.length, 100);
+  assert.deepEqual(g.lanterns.map((l) => [l.lit, l.f]), [[true, 6000], [true, 6000], [true, 6000], [false, 0], [false, 0]]);
+  const before = g.shades.map((s) => s.pos.join());
+  const idle = { move: [0, 0], cam_yaw_deg: 0 };
+  for (let i = 0; i < 60 * 300; i++) step(g, idle); // a whole night and more
+  assert.equal(g.state, "playing");
+  assert.equal(g.shades.length, 200);
+  assert.equal(g.motes.length, 100);
+  assert.equal(g.player.flames, 3);
+  assert.ok(g.lanterns.slice(0, 3).every((l) => l.f === 6000));
+  assert.ok(g.shades.every((s) => s.state === "wander"), "no chase, no drain");
+  assert.ok(g.shades.some((s, i) => s.pos.join() !== before[i]), "shades still move");
+  assert.equal(JSON.stringify(createBench(42).shades.map((s) => s.pos)), JSON.stringify(createBench(42).shades.map((s) => s.pos)), "same seed, same scene");
+});

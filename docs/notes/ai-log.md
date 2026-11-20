@@ -63,3 +63,24 @@ Lỗi của AI ở Phase 3:
 - Scenario `drain_to_chase` ban đầu cho Mây đi 30 tick, chưa đủ gần 6 m. Phát hiện khi chạy thử trước lúc viết test; đã tăng lên 60 tick.
 - Châm dầu cho đèn vốn đã ≥ 30 vẫn đẩy nhầm Bóng Mực đang đứng ở mép, do sai số số thực. Agent viết code không thấy; review độc lập bắt được và đưa ra cách tái hiện. Đã sửa và thêm test.
 - `src/headless.mjs` báo lỗi khi được import từ `node -e`, vì `process.argv[1]` không có giá trị. Đã thêm kiểm tra.
+
+## Phase 4
+
+| Việc | Cách làm | Token ước tính |
+|---|---|---|
+| Lấy Ticket-04 | Chụp và chép tay như Ticket-03, cùng một lượt | ~20k |
+| Soak test và đo RSS | Viết `tools/soak.mjs`, rồi đo tỉ lệ RSS với 6 cách cấu hình Node trước khi chọn | ~25k |
+| Benchmark | Cảnh `createBench` có test; chế độ `?bench=1` trong trang; `tools/bench.mjs` mở Chrome và nhận kết quả qua HTTP. Chạy thử 5 s rồi mới chạy 30 s chính thức. | ~35k |
+| Bảng xếp hạng | Module thuần có test; API trên server; màn nhập tên và màn bảng xếp hạng | ~25k |
+| Dễ tiếp cận | Đổi phím, phụ đề, giảm chuyển động, cỡ chữ theo `rem`; đo cỡ chữ nhỏ nhất bằng script trong trình duyệt | ~30k |
+| Công cụ quay video tự động (đã bỏ) | Thử quay tab bằng MediaRecorder được, nhưng người dùng muốn tự quay | ~15k |
+| README, CHANGELOG, CREDITS, ghi chép, retro, đóng gói | | ~40k |
+
+Cách tiết kiệm:
+- Thử nhỏ trước khi làm lớn: bench 5 s trước 30 s; một trang thăm dò 3 s để biết Chrome có quay tab và ghi MP4 được không, trước khi viết cả công cụ.
+- Đo thật thay vì đoán, ví dụ cờ Node cho soak. Cách đoán đầu tiên (thu nhỏ bộ nhớ thế hệ trẻ của V8) hoá ra không giúp gì.
+
+Lỗi của AI ở Phase 4:
+- **Treo vì `spawnSync`:** script chụp ảnh dùng `spawnSync` để chạy Chrome trong khi chính tiến trình đó đang làm server, nên Chrome không tải được trang và bị treo tới khi hết giờ. Đã đổi sang `spawn` bất đồng bộ.
+- **Số không qua đo:** bảng RSS ở `phase-4.md` lúc đầu có một dòng ghi theo trí nhớ, không theo lần chạy thật. Phát hiện khi đọc lại trước lúc commit; đã chạy lại và sửa số.
+- **Làm việc chưa được hỏi:** viết sẵn công cụ quay video demo trước khi hỏi người dùng có muốn tự quay không. Người dùng muốn tự quay, nên phần đó bị bỏ. Bài học: việc mang dấu ấn cá nhân như video, giọng nói hay lời giới thiệu thì nên hỏi trước.

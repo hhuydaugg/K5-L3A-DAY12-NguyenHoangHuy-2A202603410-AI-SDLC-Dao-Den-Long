@@ -10,3 +10,5 @@ jobs:
           node-version: 20
       - run: npm test
       - run: npm run verify -- ci
+      - name: soak (10 nights in one process, Ticket-04)
+        run: npm run soak && cat soak.json

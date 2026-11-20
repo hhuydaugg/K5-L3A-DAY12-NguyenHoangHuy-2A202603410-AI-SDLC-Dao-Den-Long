@@ -1,0 +1,298 @@
+TAP version 13
+# Subtest: contract header
+ok 1 - contract header
+  ---
+  duration_ms: 0.8817
+  type: 'test'
+  ...
+# Subtest: soak_cmd: 3 nights in one process, no crash, memory within 1.2x
+ok 2 - soak_cmd: 3 nights in one process, no crash, memory within 1.2x
+  ---
+  duration_ms: 829.9848
+  type: 'test'
+  ...
+# Subtest: contract tuning equals the game's TUNING
+ok 3 - contract tuning equals the game's TUNING
+  ---
+  duration_ms: 0.2639
+  type: 'test'
+  ...
+# Subtest: v1.2 snapshot fields, night_start, end line, night lengths 240/270/300 s
+ok 4 - v1.2 snapshot fields, night_start, end line, night lengths 240/270/300 s
+  ---
+  duration_ms: 202.4927
+  type: 'test'
+  ...
+# Subtest: determinism: same seed/night/inputs => byte-identical output on all three nights
+ok 5 - determinism: same seed/night/inputs => byte-identical output on all three nights
+  ---
+  duration_ms: 1059.8941
+  type: 'test'
+  ...
+# Subtest: malformed files and arguments exit with code 2
+ok 6 - malformed files and arguments exit with code 2
+  ---
+  duration_ms: 698.1837
+  type: 'test'
+  ...
+# Subtest: pick 10 motes, deposit 10 into a lantern, it lights: score counts deposited motes
+ok 7 - pick 10 motes, deposit 10 into a lantern, it lights: score counts deposited motes
+  ---
+  duration_ms: 78.682
+  type: 'test'
+  ...
+# Subtest: lighting every lantern no longer ends the night; pre-lit lanterns score nothing
+ok 8 - lighting every lantern no longer ends the night; pre-lit lanterns score nothing
+  ---
+  duration_ms: 73.0796
+  type: 'test'
+  ...
+# Subtest: dawn with >= 3/5 lanterns lit wins: +50 + floor(fuel) per lit lantern, +50 per flame
+ok 9 - dawn with >= 3/5 lanterns lit wins: +50 + floor(fuel) per lit lantern, +50 per flame
+  ---
+  duration_ms: 62.5821
+  type: 'test'
+  ...
+# Subtest: dawn with too few lanterns lit loses; 0 flames on the dawn tick loses as no_flames
+ok 10 - dawn with too few lanterns lit loses; 0 flames on the dawn tick loses as no_flames
+  ---
+  duration_ms: 196.4445
+  type: 'test'
+  ...
+# Subtest: shade contact: -1 flame, drops floor(carried/2), lose at 0 flames
+ok 11 - shade contact: -1 flame, drops floor(carried/2), lose at 0 flames
+  ---
+  duration_ms: 67.3447
+  type: 'test'
+  ...
+# Subtest: pulse: 3 motes, stun 120 ticks, 4 m push over 15 ticks, +5 per shade
+ok 12 - pulse: 3 motes, stun 120 ticks, 4 m push over 15 ticks, +5 per shade
+  ---
+  duration_ms: 71.5582
+  type: 'test'
+  ...
+# Subtest: pulse targets by 3D distance from feet + 0.8 m
+ok 13 - pulse targets by 3D distance from feet + 0.8 m
+  ---
+  duration_ms: 68.4286
+  type: 'test'
+  ...
+# Subtest: pulse needs 3 motes
+ok 14 - pulse needs 3 motes
+  ---
+  duration_ms: 66.2231
+  type: 'test'
+  ...
+# Subtest: dawn loses
+ok 15 - dawn loses
+  ---
+  duration_ms: 69.4637
+  type: 'test'
+  ...
+# Subtest: shades stop at the 6 m edge of a lit lantern
+ok 16 - shades stop at the 6 m edge of a lit lantern
+  ---
+  duration_ms: 77.6927
+  type: 'test'
+  ...
+# Subtest: a shade inside a lantern that just lit is pushed to the edge within 30 ticks, harmless meanwhile
+ok 17 - a shade inside a lantern that just lit is pushed to the edge within 30 ticks, harmless meanwhile
+  ---
+  duration_ms: 92.8949
+  type: 'test'
+  ...
+# Subtest: interact picks the nearest unlit lantern, tie => lower id
+ok 18 - interact picks the nearest unlit lantern, tie => lower id
+  ---
+  duration_ms: 127.1906
+  type: 'test'
+  ...
+# Subtest: camera yaw 90 + forward moves along +X; run speed reached in 0.1 s
+ok 19 - camera yaw 90 + forward moves along +X; run speed reached in 0.1 s
+  ---
+  duration_ms: 75.7341
+  type: 'test'
+  ...
+# Subtest: dash: 14 m/s for 0.2 s, 1.5 s cooldown from the start, facing direction when standing still
+ok 20 - dash: 14 m/s for 0.2 s, 1.5 s cooldown from the start, facing direction when standing still
+  ---
+  duration_ms: 78.0421
+  type: 'test'
+  ...
+# Subtest: air dash keeps the height
+ok 21 - air dash keeps the height
+  ---
+  duration_ms: 70.2665
+  type: 'test'
+  ...
+# Subtest: falling off the island: -1 flame, lose all motes once, respawn at start after 60 ticks with invulnerability
+ok 22 - falling off the island: -1 flame, lose all motes once, respawn at start after 60 ticks with invulnerability
+  ---
+  duration_ms: 82.8461
+  type: 'test'
+  ...
+# Subtest: hit drops floor(carried/2) motes on a 1.5-2.5 m ring for 480 ticks; the shade recoils
+ok 23 - hit drops floor(carried/2) motes on a 1.5-2.5 m ring for 480 ticks; the shade recoils
+  ---
+  duration_ms: 122.2913
+  type: 'test'
+  ...
+# Subtest: shade schedule: 2 at tick 300 (spawning), then 1 every 8 s on night 1
+ok 24 - shade schedule: 2 at tick 300 (spawning), then 1 every 8 s on night 1
+  ---
+  duration_ms: 88.4576
+  type: 'test'
+  ...
+# Subtest: pause freezes sim_tick and time while tick keeps counting
+ok 25 - pause freezes sim_tick and time while tick keeps counting
+  ---
+  duration_ms: 68.8374
+  type: 'test'
+  ...
+# Subtest: night 2 jump pad throws Mây over the sea to the other island
+ok 26 - night 2 jump pad throws Mây over the sea to the other island
+  ---
+  duration_ms: 79.1995
+  type: 'test'
+  ...
+# Subtest: night 3: tier walls block, ramps climb, the pad lands on tier 2
+ok 27 - night 3: tier walls block, ramps climb, the pad lands on tier 2
+  ---
+  duration_ms: 231.4258
+  type: 'test'
+  ...
+# Subtest: night 3 wind: a 5 s gust every 30 s pushes Mây at 2 m/s
+ok 28 - night 3 wind: a 5 s gust every 30 s pushes Mây at 2 m/s
+  ---
+  duration_ms: 91.7009
+  type: 'test'
+  ...
+# Subtest: Gió Lạc chases a Mây carrying >= 5, steals 3 once, flees 240 ticks then is removed
+ok 29 - Gió Lạc chases a Mây carrying >= 5, steals 3 once, flees 240 ticks then is removed
+  ---
+  duration_ms: 73.1947
+  type: 'test'
+  ...
+# Subtest: pulse on a chasing Gió Lạc: it flees without stealing
+ok 30 - pulse on a chasing Gió Lạc: it flees without stealing
+  ---
+  duration_ms: 78.3349
+  type: 'test'
+  ...
+# Subtest: pulse on a fleeing Gió Lạc with loot: drops it as dropped motes, gone after 120 ticks
+ok 31 - pulse on a fleeing Gió Lạc with loot: drops it as dropped motes, gone after 120 ticks
+  ---
+  duration_ms: 90.8737
+  type: 'test'
+  ...
+# Subtest: Bùa Gió: 600 ticks of 7.2 m/s and dash without cooldown; respawns after 2700 ticks
+ok 32 - Bùa Gió: 600 ticks of 7.2 m/s and dash without cooldown; respawns after 2700 ticks
+  ---
+  duration_ms: 83.9324
+  type: 'test'
+  ...
+# Subtest: lit lanterns burn 1 fuel/s and go out at 0: lantern_out, deposited 0, ever_lit stays true
+ok 33 - lit lanterns burn 1 fuel/s and go out at 0: lantern_out, deposited 0, ever_lit stays true
+  ---
+  duration_ms: 72.3926
+  type: 'test'
+  ...
+# Subtest: relighting costs 5 motes, scores 5/mote + 40, counts relit_count and grows capacity by 2
+ok 34 - relighting costs 5 motes, scores 5/mote + 40, counts relit_count and grows capacity by 2
+  ---
+  duration_ms: 63.3552
+  type: 'test'
+  ...
+# Subtest: refuel: used = min(carried, ceil((100 - fuel) / 10)), +10 fuel per mote up to 100, +5 per mote
+ok 35 - refuel: used = min(carried, ceil((100 - fuel) / 10)), +10 fuel per mote up to 100, +5 per mote
+  ---
+  duration_ms: 133.8932
+  type: 'test'
+  ...
+# Subtest: capacity = 10 + 2 x successful lights: pickups stop at it
+ok 36 - capacity = 10 + 2 x successful lights: pickups stop at it
+  ---
+  duration_ms: 61.8369
+  type: 'test'
+  ...
+# Subtest: a wandering shade goes to a lantern under 30 fuel, drains 5/s within 2 m, fuel_drain every 60 ticks
+ok 37 - a wandering shade goes to a lantern under 30 fuel, drains 5/s within 2 m, fuel_drain every 60 ticks
+  ---
+  duration_ms: 82.6107
+  type: 'test'
+  ...
+# Subtest: several draining shades add up
+ok 38 - several draining shades add up
+  ---
+  duration_ms: 82.7053
+  type: 'test'
+  ...
+# Subtest: a draining shade chases Mây within 6 m
+ok 39 - a draining shade chases Mây within 6 m
+  ---
+  duration_ms: 71.7125
+  type: 'test'
+  ...
+# Subtest: refuel to >= 30 pushes draining shades to the 6 m edge in 30 ticks, harmless, back to wander
+ok 40 - refuel to >= 30 pushes draining shades to the 6 m edge in 30 ticks, harmless, back to wander
+  ---
+  duration_ms: 70.4979
+  type: 'test'
+  ...
+# Subtest: pulse on a draining shade scores 15
+ok 41 - pulse on a draining shade scores 15
+  ---
+  duration_ms: 73.1322
+  type: 'test'
+  ...
+# Subtest: a lantern keeps its safe zone at exactly 30 fuel and loses it below
+ok 42 - a lantern keeps its safe zone at exactly 30 fuel and loses it below
+  ---
+  duration_ms: 80.123
+  type: 'test'
+  ...
+# Subtest: refuelling a lantern already >= 30 does not eject shades pinned on its 6 m edge (review-phase-3 \#1)
+ok 43 - refuelling a lantern already >= 30 does not eject shades pinned on its 6 m edge (review-phase-3 \#1)
+  ---
+  duration_ms: 13.2602
+  type: 'test'
+  ...
+# Subtest: bench scene: 200 wandering shades, 100 motes, L1-L3 lit at 100; nothing spawns, burns, hurts or ends
+ok 44 - bench scene: 200 wandering shades, 100 motes, L1-L3 lit at 100; nothing spawns, burns, hurts or ends
+  ---
+  duration_ms: 2917.689
+  type: 'test'
+  ...
+# Subtest: names: 3-12 of [A-Za-z0-9_], Vietnamese letters allowed
+ok 45 - names: 3-12 of [A-Za-z0-9_], Vietnamese letters allowed
+  ---
+  duration_ms: 1.65
+  type: 'test'
+  ...
+# Subtest: top 10 by score, ties keep whoever scored first
+ok 46 - top 10 by score, ties keep whoever scored first
+  ---
+  duration_ms: 2.6911
+  type: 'test'
+  ...
+# Subtest: achieved_at is ISO 8601 with the local offset
+ok 47 - achieved_at is ISO 8601 with the local offset
+  ---
+  duration_ms: 1.4506
+  type: 'test'
+  ...
+# Subtest: --export-leaderboard writes {entries} in order from the file on disk
+ok 48 - --export-leaderboard writes {entries} in order from the file on disk
+  ---
+  duration_ms: 184.8348
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8285.9013

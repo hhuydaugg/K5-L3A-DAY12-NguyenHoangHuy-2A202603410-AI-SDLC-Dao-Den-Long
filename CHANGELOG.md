@@ -2,6 +2,34 @@
 
 Mỗi phase là một tag trên `main`. "Phá vỡ tương thích" là thay đổi làm đầu ra headless hoặc file scenario cũ cho kết quả khác.
 
+## Phase 4 — Ticket-04 "Bình minh: phát hành v1.0.0" (tag `phase-4`, Release `v1.0.0`, Test Contract v1.3)
+
+### Phá vỡ tương thích
+- `contract_version` "1.2" → "1.3".
+- `run_cmd` đổi từ `npm start` sang `node web/serve.mjs`, để `<run_cmd> --export-leaderboard out.json` chạy được. `npm start` vẫn dùng như cũ.
+- Phím mặc định giờ đổi được. Bỏ các phím phụ cố định trước đây (P để tạm dừng, ↑ ↓ để đi, Shift phải để lướt). Ai muốn dùng lại thì gán trong Cài đặt.
+- `web/serve.mjs` chỉ nghe trên `127.0.0.1`.
+
+### Thêm mới
+- **Benchmark** `node tools/bench.mjs --seed 42 --duration 30 --out bench.json`:
+  - cảnh chuẩn `createBench` trong `src/sim.js`;
+  - cửa sổ Chrome/Edge 1280×720, tắt vsync;
+  - kết quả có các chỉ số FPS, p95, `load_ms`.
+- **Soak test** `tools/soak.mjs`: 10 Đêm trong một tiến trình, input ngẫu nhiên theo seed, đo RSS. CI chạy soak trên Linux.
+- **Bảng xếp hạng cục bộ:**
+  - lưu ở `data/leaderboard.json` qua server cục bộ, giữ top 10;
+  - nhập tên sau Bình Minh hoặc khi thua;
+  - có màn hình riêng từ menu;
+  - xuất ra file bằng `--export-leaderboard`.
+- **Dễ tiếp cận:**
+  - đổi phím mọi hành động, báo trùng phím, khôi phục mặc định;
+  - phụ đề / chỉ báo hình ảnh: Bóng Mực xuất hiện kèm mũi tên ở mép màn hình, gió sắp thổi, 10 giây cuối, đèn dưới 30 dầu;
+  - giảm chuyển động: tắt rung camera, chớp màn hình, nhấp nháy đồng hồ;
+  - chữ tối thiểu 18 px ở 1280×720, tùy chọn chữ lớn ×1,25.
+- `game.contract.json` có thêm `bench_cmd`, `soak_cmd`.
+- Đóng gói: `npm run release` tạo `dist/dao-den-long-v1.0.0.zip` từ commit hiện tại.
+- Tài liệu: README theo mẫu phát hành; CREDITS liệt kê mọi tài sản và công cụ AI; `docs/retro.md`.
+
 ## Phase 3 — Ticket-03 "Đèn cạn dầu" (tag `phase-3`, Test Contract v1.2)
 
 ### Phá vỡ tương thích
